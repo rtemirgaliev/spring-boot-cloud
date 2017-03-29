@@ -12,6 +12,7 @@
     <modules>
         <module>hello-service</module>
         <module>config</module>
+        <module>registry</module>
     </modules>
 
 

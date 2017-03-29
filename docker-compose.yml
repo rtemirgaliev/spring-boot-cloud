@@ -1,10 +1,9 @@
 version: '2'
 services:
-
-
   config:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#      CONFIG_SERVICE_PASSWORD: user
 #    image: sqshq/piggymetrics-config
     restart: always
     logging:
@@ -15,19 +14,31 @@ services:
     ports:
        - 8888:8888
 
+  registry:
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#    image: sqshq/piggymetrics-registry
+    build: registry
+    restart: always
+    ports:
+      - 8761:8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
 
   hello-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: user
+#      ACCOUNT_SERVICE_PASSWORD: user
+#      MONGODB_PASSWORD: $MONGODB_PASSWORD
 #    image: sqshq/piggymetrics-account-service
     restart: always
     logging:
       options:
         max-size: "10m"
         max-file: "10"
-    build: help-service
+    build: hello-service
     ports:
       - 6000:6000
 

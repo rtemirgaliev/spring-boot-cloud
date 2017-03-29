@@ -3,8 +3,8 @@ spring:
     name: hello-service
   cloud:
     config:
-#      uri: http://config:8888
-      uri: http://172.17.0.2:8888
+      uri: http://config:8888
+#      uri: http://172.18.0.3:8888
       fail-fast: true
 #      password: ${CONFIG_SERVICE_PASSWORD}
       password: user
