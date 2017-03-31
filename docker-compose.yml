@@ -27,6 +27,19 @@ services:
         max-size: "10m"
         max-file: "10"
 
+  gateway:
+#    environment:
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#    image: sqshq/piggymetrics-gateway
+    build:  gateway
+    restart: always
+    ports:
+      - 80:4000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
   hello-service:
 #    environment:
 #      CONFIG_SERVICE_PASSWORD: user

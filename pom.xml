@@ -13,6 +13,7 @@
         <module>hello-service</module>
         <module>config</module>
         <module>registry</module>
+        <module>gateway</module>
     </modules>
 
 

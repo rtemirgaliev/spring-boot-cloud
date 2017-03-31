@@ -9,6 +9,6 @@ public class HelloController {
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
     String getHello() {
-        return "Hello";
+        return "Response from hello-service" + '\n';
     }
 }
