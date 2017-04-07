@@ -34,7 +34,7 @@ public class AuthServiceApplication {
 		SpringApplication.run(AuthServiceApplication.class, args);
 	}
 
-	protected static class webSecurityConfigurer extends WebSecurityConfigurerAdapter {
+	protected static class webSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private MongoUserDetailsService userDetailsService;
@@ -69,7 +69,7 @@ public class AuthServiceApplication {
 		private TokenStore tokenStore = new InMemoryTokenStore();
 
 		@Autowired
-		@Qualifier("authenticationManagerBean")
+//		@Qualifier("authenticationManagerBean")
 		private AuthenticationManager authenticationManager;
 
 		@Autowired

@@ -55,3 +55,13 @@ services:
     ports:
       - 6000:6000
 
+  auth-service:
+#    image: sqshq/piggymetrics-auth-service
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    build: auth-service
+    ports:
+      - 5000:5000
