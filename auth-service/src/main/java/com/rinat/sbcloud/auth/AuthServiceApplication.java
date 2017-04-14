@@ -1,6 +1,6 @@
 package com.rinat.sbcloud.auth;
 
-import com.rinat.sbcloud.auth.service.security.MongoUserDetailsService;
+//import com.rinat.sbcloud.auth.service.security.MongoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -23,44 +26,76 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @SpringBootApplication
 @EnableResourceServer
 @EnableDiscoveryClient
-@EnableGlobalMethodSecurity(prePostEnabled = true) //http://docs.spring.io/spring-security/site/docs/current/reference/html/el-access.html
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
 	}
 
+	@Configuration
+	@EnableWebSecurity
 	protected static class webSecurityConfig extends WebSecurityConfigurerAdapter {
 
-		@Autowired
-		private MongoUserDetailsService userDetailsService;
+//		@Autowired
+//		private MongoUserDetailsService userDetailsService;
 
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			// @formatter:off
-			http
-				.authorizeRequests().anyRequest().authenticated()
-			.and()
-				.csrf().disable();
-			// @formatter:on
-		}
+//		@Override
+//		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//			auth.userDetailsService(userDetailsService)
+//					.passwordEncoder(new BCryptPasswordEncoder());
+//		}
 
-		@Override
-		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService)
-					.passwordEncoder(new BCryptPasswordEncoder());
-		}
+//		@Autowired
+//		private UserDetailsService myUserDetailsService;
 
 		@Override
 		@Bean
 		public AuthenticationManager authenticationManagerBean() throws Exception {
 			return super.authenticationManagerBean();
 		}
+
+//		@Override
+//		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//			auth.userDetailsService(myUserDetailsService);
+//		}
+
+
+//		@Autowired
+//		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//			auth
+//					.inMemoryAuthentication()
+//					.withUser("user").password("user").roles("USER", "ADMIN");
+//		}
+
+		@Bean
+		public UserDetailsService userDetailsService() {
+			InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+			manager.createUser(User.withUsername("user").password("user").roles("USER").build());
+			return manager;
+		}
+
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+
+			http
+				.authorizeRequests()
+					.antMatchers("/users/clean/**").permitAll()
+					.antMatchers("/users/pwd/**").authenticated()
+					.anyRequest().authenticated()
+			.and()
+				.httpBasic()
+			.and()
+				.csrf().disable();
+		}
 	}
+
 
 	@Configuration
 	@EnableAuthorizationServer
@@ -69,15 +104,19 @@ public class AuthServiceApplication {
 		private TokenStore tokenStore = new InMemoryTokenStore();
 
 		@Autowired
-//		@Qualifier("authenticationManagerBean")
+		@Qualifier("authenticationManagerBean")
 		private AuthenticationManager authenticationManager;
-
+//
+//		@Autowired
+//		private MongoUserDetailsService userDetailsService;
 		@Autowired
-		private MongoUserDetailsService userDetailsService;
+		private UserDetailsService userDetailsService;
 
-		@Autowired
-		private Environment env;
 
+
+//		@Autowired
+//		private Environment env;
+//
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			// TODO persist clients details

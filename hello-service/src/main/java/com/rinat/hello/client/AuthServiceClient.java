@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "auth-service")
 public interface AuthServiceClient {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/info", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    String getInfoFromAuthService();
+    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/clean", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String getCleanFromAuthService();
+
+    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/pwd", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String getPwdFromAuthService();
+
+    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/oa", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String getOauthFromAuthService();
 
 
 }

@@ -15,8 +15,21 @@ public class HelloServiceImpl implements HelloService {
     AuthServiceClient authClient;
 
     @Override
-    public String getSomeInfoFromAuthService() {
-        return authClient.getInfoFromAuthService();
+    public String getCleanInfoFromAuthService() {
+
+        String info = "NULLL";
+
+        log.info("Starting request to Auth...");
+
+        try {
+            info =authClient.getCleanFromAuthService();
+        } catch (Exception e) {
+            log.info("Exception in authClient.getInfoFromAuthService() :  " + e.toString());
+        }
+
+        log.info("authClient.getInfoFromAuthService() : " + info);
+
+        return info;
     }
 
 
