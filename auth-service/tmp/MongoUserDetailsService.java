@@ -1,7 +1,7 @@
 package com.rinat.sbcloud.auth.service.security;
 
 import com.rinat.sbcloud.auth.domain.User;
-import com.rinat.sbcloud.auth.repository.UserRepository;
+//import com.rinat.sbcloud.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

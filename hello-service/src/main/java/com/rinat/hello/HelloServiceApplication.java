@@ -9,10 +9,14 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-
 public class HelloServiceApplication {
 
 	public static void main(String[] args) {
+
+		System.out.println("...Starting application");
+
 		SpringApplication.run(HelloServiceApplication.class, args);
+
+		System.out.println("...Started application");
 	}
 }
