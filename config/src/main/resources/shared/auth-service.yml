@@ -9,5 +9,4 @@ spring:
 
 server:
   context-path: /uaa
-#  port: 5000
-  port: 8181
+  port: 5000

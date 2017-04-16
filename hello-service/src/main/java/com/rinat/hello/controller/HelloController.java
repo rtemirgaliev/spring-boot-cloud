@@ -22,13 +22,18 @@ public class HelloController {
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
     String getHello() {
-        log.info("..logger in /hello");
-        System.out.println("..sout in /hello");
         return "Response from hello-service" + '\n';
     }
 
     @RequestMapping(path = "/clean", method = RequestMethod.GET)
     String getInfoFromAuth() {
+
+        if (authClient == null) {
+            System.out.println("-->authClient: null");
+        } else {
+            System.out.println("-->authClient: " + authClient.toString());
+        }
+
         return authClient.getCleanFromAuthService();
     }
 

@@ -1,6 +1,7 @@
 logging:
   level:
-    org.springframework.security: INFO
+    org.springframework.security: DEBUG
+    com.rinat.hello.client: DEBUG
 
 eureka:
   instance:
@@ -11,5 +12,4 @@ eureka:
 security:
   oauth2:
     resource:
-#      user-info-uri: http://auth-service:5000/uaa/users/current
-      user-info-uri: http://auth-service:8181/uaa/users/current
+      user-info-uri: http://auth-service:5000/uaa/users/current

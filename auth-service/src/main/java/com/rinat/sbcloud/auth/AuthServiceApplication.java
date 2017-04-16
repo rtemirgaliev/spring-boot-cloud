@@ -77,6 +77,7 @@ public class AuthServiceApplication {
 		public UserDetailsService userDetailsService() {
 			InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
 			manager.createUser(User.withUsername("user").password("user").roles("USER").build());
+//			manager.createUser(User.withUsername("hello-service").password("user").roles("USER").build());
 			return manager;
 		}
 
@@ -86,11 +87,11 @@ public class AuthServiceApplication {
 
 			http
 				.authorizeRequests()
-					.antMatchers("/users/clean/**").permitAll()
-					.antMatchers("/users/pwd/**").authenticated()
+//					.antMatchers("/users/clean/**").permitAll()
+//					.antMatchers("/users/pwd/**").authenticated()
 					.anyRequest().authenticated()
-			.and()
-				.httpBasic()
+//			.and()
+//				.httpBasic()
 			.and()
 				.csrf().disable();
 		}
@@ -126,7 +127,7 @@ public class AuthServiceApplication {
 					.authorizedGrantTypes("refresh_token", "password")
 					.scopes("ui")
 			.and()
-					.withClient("account-service")
+					.withClient("hello-service")
 					.secret("user")
 					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server");

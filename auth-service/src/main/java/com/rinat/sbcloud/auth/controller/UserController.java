@@ -21,10 +21,9 @@ public class UserController {
         return "-> Password secured resource";
     }
 
-    @PreAuthorize("#oauth2.hasScope('ui')")
+    @PreAuthorize("#oauth2.hasScope('server')")
     @RequestMapping("/oa")
     public String getSecuredInfo() {
-
         return "-> OAuth secured resource";
     }
 

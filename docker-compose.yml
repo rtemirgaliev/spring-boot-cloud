@@ -53,7 +53,7 @@ services:
         max-file: "10"
     build: hello-service
     ports:
-      - 6000:6000
+      - 6001:6001
 
   auth-service:
 #    image: sqshq/piggymetrics-auth-service
