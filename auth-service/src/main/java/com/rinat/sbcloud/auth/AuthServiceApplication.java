@@ -1,11 +1,15 @@
 package com.rinat.sbcloud.auth;
 
 //import com.rinat.sbcloud.auth.service.security.MongoUserDetailsService;
+import com.rinat.sbcloud.auth.service.security.CustomUserInfoTokenServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -18,12 +22,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -32,11 +41,21 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableResourceServer
 @EnableDiscoveryClient
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class AuthServiceApplication {
+public class AuthServiceApplication extends ResourceServerConfigurerAdapter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
 	}
+
+//	@Autowired
+//	private ResourceServerProperties sso;
+//
+//	@Bean
+//	public ResourceServerTokenServices tokenServices() {
+//		return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+//	}
+
+
 
 	@Configuration
 	@EnableWebSecurity
@@ -45,55 +64,37 @@ public class AuthServiceApplication {
 //		@Autowired
 //		private MongoUserDetailsService userDetailsService;
 
+		@Bean
+		public UserDetailsService userDetailsService() {
+			InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+			manager.createUser(User.withUsername("user").password("user").roles("USER").build());
+			return manager;
+		}
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+
+			http
+					.authorizeRequests()
+//					.antMatchers("/users/oa/**").permitAll()
+//					.antMatchers("/users/oa/**").authenticated()
+					.anyRequest().authenticated()
+//			.and()
+//				.httpBasic()
+					.and()
+					.csrf().disable();
+		}
+
 //		@Override
 //		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //			auth.userDetailsService(userDetailsService)
 //					.passwordEncoder(new BCryptPasswordEncoder());
 //		}
 
-//		@Autowired
-//		private UserDetailsService myUserDetailsService;
-
 		@Override
 		@Bean
 		public AuthenticationManager authenticationManagerBean() throws Exception {
 			return super.authenticationManagerBean();
-		}
-
-//		@Override
-//		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//			auth.userDetailsService(myUserDetailsService);
-//		}
-
-
-//		@Autowired
-//		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//			auth
-//					.inMemoryAuthentication()
-//					.withUser("user").password("user").roles("USER", "ADMIN");
-//		}
-
-		@Bean
-		public UserDetailsService userDetailsService() {
-			InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-			manager.createUser(User.withUsername("user").password("user").roles("USER").build());
-//			manager.createUser(User.withUsername("hello-service").password("user").roles("USER").build());
-			return manager;
-		}
-
-
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-
-			http
-				.authorizeRequests()
-//					.antMatchers("/users/clean/**").permitAll()
-//					.antMatchers("/users/pwd/**").authenticated()
-					.anyRequest().authenticated()
-//			.and()
-//				.httpBasic()
-			.and()
-				.csrf().disable();
 		}
 	}
 
@@ -113,15 +114,12 @@ public class AuthServiceApplication {
 		@Autowired
 		private UserDetailsService userDetailsService;
 
-
-
 //		@Autowired
 //		private Environment env;
 //
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			// TODO persist clients details
-			// @formatter:on
 			clients.inMemory()
 					.withClient("browser")
 					.authorizedGrantTypes("refresh_token", "password")
@@ -132,7 +130,6 @@ public class AuthServiceApplication {
 					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server");
 			// TODO describe other clients
-			// @formatter:off
 		}
 
 		@Override
