@@ -38,7 +38,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @SpringBootApplication
-@EnableResourceServer
+//@EnableResourceServer
 @EnableDiscoveryClient
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthServiceApplication extends ResourceServerConfigurerAdapter {
@@ -46,16 +46,6 @@ public class AuthServiceApplication extends ResourceServerConfigurerAdapter {
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
 	}
-
-//	@Autowired
-//	private ResourceServerProperties sso;
-//
-//	@Bean
-//	public ResourceServerTokenServices tokenServices() {
-//		return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
-//	}
-
-
 
 	@Configuration
 	@EnableWebSecurity
@@ -79,8 +69,8 @@ public class AuthServiceApplication extends ResourceServerConfigurerAdapter {
 //					.antMatchers("/users/oa/**").permitAll()
 //					.antMatchers("/users/oa/**").authenticated()
 					.anyRequest().authenticated()
-//			.and()
-//				.httpBasic()
+			.and()
+				.httpBasic()
 					.and()
 					.csrf().disable();
 		}
@@ -129,7 +119,6 @@ public class AuthServiceApplication extends ResourceServerConfigurerAdapter {
 					.secret("user")
 					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server");
-			// TODO describe other clients
 		}
 
 		@Override

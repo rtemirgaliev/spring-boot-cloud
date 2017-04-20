@@ -1,0 +1,11 @@
+security:
+ oauth2:
+   resource:
+#     userInfoUri: http://localhost:5001/auth/oauth/check_token
+     userInfoUri: http://localhost:5001/auth/user
+server:
+  port: 6001
+
+logging:
+ level:
+   org.springframework.security: DEBUG
