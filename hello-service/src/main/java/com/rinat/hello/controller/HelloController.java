@@ -17,9 +17,6 @@ public class HelloController {
     @Autowired
     AuthServiceClient authClient;
 
-//    @Autowired
-//    private HelloService helloService;
-
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
     String getHello() {
         return "Response from hello-service" + '\n';
@@ -27,17 +24,10 @@ public class HelloController {
 
     @RequestMapping(path = "/clean", method = RequestMethod.GET)
     String getInfoFromAuth() {
-
-        if (authClient == null) {
-            System.out.println("-->authClient: null");
-        } else {
-            System.out.println("-->authClient: " + authClient.toString());
-        }
-
         return authClient.getCleanFromAuthService();
     }
 
-    @RequestMapping(path = "/pwd", method = RequestMethod.GET)
+    @RequestMapping(path = "/ui", method = RequestMethod.GET)
     String getPwdFromAuth() {
         return authClient.getPwdFromAuthService();
     }
@@ -45,6 +35,11 @@ public class HelloController {
     @RequestMapping(path = "/oa", method = RequestMethod.GET)
     String getOaFromAuth() {
         return authClient.getOauthFromAuthService();
+    }
+
+    @RequestMapping(path = "/current", method = RequestMethod.GET)
+    String getCurrentFromAuth() {
+        return authClient.getCurrentFromAuthService();
     }
 
 }

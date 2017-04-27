@@ -7,4 +7,4 @@ spring:
       fail-fast: true
 #      password: ${CONFIG_SERVICE_PASSWORD}
       password: user
-      username: user
+      username: secret

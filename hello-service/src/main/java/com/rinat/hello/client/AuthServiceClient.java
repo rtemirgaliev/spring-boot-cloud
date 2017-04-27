@@ -11,11 +11,13 @@ public interface AuthServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/clean", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     String getCleanFromAuthService();
 
-    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/pwd", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/ui", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     String getPwdFromAuthService();
 
     @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/oa", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     String getOauthFromAuthService();
 
+    @RequestMapping(method = RequestMethod.GET, value = "/uaa/users/current", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String getCurrentFromAuthService();
 
 }

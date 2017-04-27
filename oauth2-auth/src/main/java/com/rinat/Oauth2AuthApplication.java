@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -22,6 +23,7 @@ import java.security.Principal;
 @SpringBootApplication
 @RestController
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Oauth2AuthApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(Oauth2AuthApplication.class);
@@ -58,11 +60,6 @@ public class Oauth2AuthApplication {
 					.authorities("ROLE_RS_READ");
 		}
 
-//		@Override
-//		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//			security.tokenKeyAccess("isAnonymous() || hasAuthority('ROLE_ANONYMOUS')")
-//				  .checkTokenAccess("isAnonymous() || hasAuthority('ROLE_ANONYMOUS') || hasAuthority('ROLE_RS_READ')");
-//		}
 	}
 
 }

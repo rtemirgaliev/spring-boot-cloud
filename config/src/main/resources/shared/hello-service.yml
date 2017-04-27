@@ -6,7 +6,7 @@ security:
   oauth2:
     client:
       clientId: hello-service
-      clientSecret: user
+      clientSecret: secret
       accessTokenUri: http://auth-service:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server

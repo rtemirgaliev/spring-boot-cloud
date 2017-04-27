@@ -20,7 +20,8 @@ public class UserController {
         return "-> Not secured resource";
     }
 
-    @RequestMapping("/pwd")
+    @PreAuthorize("#oauth2.hasScope('ui')")
+    @RequestMapping("/ui")
     public String getPwd() {
         return "-> Password secured resource";
     }
