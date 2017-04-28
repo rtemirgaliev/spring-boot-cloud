@@ -1,5 +1,15 @@
 version: '2'
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - 15672:15672
+      - 5672:5672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
   config:
     restart: always
     logging:
@@ -34,7 +44,7 @@ services:
     restart: always
     logging:
       options:
-        max-size: "10m"
+        max-size: "10m"9
         max-file: "10"
     build: hello-service
     ports:
@@ -54,7 +64,7 @@ services:
     restart: always
     build: monitoring
     ports:
-      - 9000:8080
+      - 8080:8080
       - 8989:8989
     logging:
       options:

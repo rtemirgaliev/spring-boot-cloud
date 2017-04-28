@@ -10,3 +10,6 @@ security:
       accessTokenUri: http://auth-service:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
+management:
+  security:
+    enabled: false
