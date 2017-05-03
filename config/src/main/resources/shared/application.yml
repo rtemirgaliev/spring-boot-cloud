@@ -2,6 +2,7 @@ logging:
   level:
     org.springframework.security: DEBUG
     com.rinat.hello.client: DEBUG
+    com.netflix: DEBUG
 
 eureka:
   instance:
