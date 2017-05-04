@@ -2,7 +2,7 @@ version: '2'
 services:
   rabbitmq:
     image: rabbitmq:3-management
-    restart: always
+#    restart: always
     ports:
       - 15672:15672
       - 5672:5672
@@ -11,7 +11,7 @@ services:
         max-size: "10m"
         max-file: "10"
   config:
-    restart: always
+#    restart: always
     logging:
       options:
         max-size: "10m"
@@ -22,7 +22,7 @@ services:
 
   registry:
     build: registry
-    restart: always
+#    restart: always
     ports:
       - 8761:8761
     logging:
@@ -32,7 +32,7 @@ services:
 
   gateway:
     build:  gateway
-    restart: always
+#    restart: always
     ports:
       - 80:4000
     logging:
@@ -41,17 +41,17 @@ services:
         max-file: "10"
 
   hello-service:
-    restart: always
+#    restart: always
     logging:
       options:
-        max-size: "10m"9
+        max-size: "10m"
         max-file: "10"
     build: hello-service
     ports:
       - 6001:6001
 
   auth-service:
-    restart: always
+#    restart: always
     logging:
       options:
         max-size: "10m"
@@ -61,7 +61,7 @@ services:
       - 5000:5000
 
   monitoring:
-    restart: always
+#    restart: always
     build: monitoring
     ports:
       - 8080:8080
