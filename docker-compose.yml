@@ -64,7 +64,7 @@ services:
 #    restart: always
     build: monitoring
     ports:
-      - 8080:8080
+      - 9000:8080
       - 8989:8989
     logging:
       options:
